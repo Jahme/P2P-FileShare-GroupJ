@@ -36,25 +36,25 @@ public class ActivePeerClient extends Thread{ //or implements Runnable
         }
     }
     
-    
+    // Process of execution when starting this class object as new Thread
     @Override
     public void run(){
-        //Response stream
-        try{ //TESTING: Static file to send / request.
-
+        try{ 
+            //Initialize the data incoming stream for the socket
             InputStream incoming = this.peerSocket.getInputStream();
             DataInputStream receive = new DataInputStream(incoming);
             if(this.process.equals("GET")){ // Request a file
-                File aFile = new File(activeFile);
-                getCmd(receive, activeFile);
+                File aFile = new File(activeFile); 
+                getCmd(receive, activeFile); //Command to obtain file
             }
             else if(this.process.equals("PUT")){ // Send a file
                 File aFile = new File(activeFile);
-                putCmd(activeFile,aFile.length());
+                putCmd(activeFile,aFile.length()); //Command to send file.
             }
-            else if(this.process.equals("SYN")){
-                syncFiles(receive);
+            else if(this.process.equals("SYN")){ 
+                syncFiles(receive); //Command to perform a sync between a pair of connected peers
             }
+            //Necessary Termination
             receive.close();
             incoming.close();
             this.peerSocket.close();
@@ -83,7 +83,7 @@ public class ActivePeerClient extends Thread{ //or implements Runnable
             //Receive file
             long fileSize = in.readLong(); //Read file size
             byte[] buffer = new byte[1024];
-            while(fileSize > 0 && (bytesRead = in.read(buffer, 0, (int)Math.min(buffer.length, fileSize))) != -1){
+            while(fileSize > 0 && (bytesRead = in.read(buffer, 0, (int)Math.min(buffer.length, fileSize))) != -1){ //Receive file for specified file size
                 output.write(buffer, 0, bytesRead);
                 fileSize -= bytesRead;
             }
@@ -100,6 +100,7 @@ public class ActivePeerClient extends Thread{ //or implements Runnable
     private void putCmd(String fileName, long fileSize){
         //Send command "PUT"
         try{
+            //Prepare OutputStream
             OutputStream os = this.peerSocket.getOutputStream();
             DataOutputStream dos = new DataOutputStream(os);
             byte[] buffer = new byte[(int) fileSize];
