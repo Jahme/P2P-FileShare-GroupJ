@@ -1,5 +1,6 @@
 # P2P-FileShare-GroupJ
 CSULB CECS 327 P2P 
+Note for instructor: Write-up is uploaded to main branch as .docx file.
 
 This repository holds the source code and documentation for a preliminary, non-production ready implementation of a Peer2Peer FileSharing system in Java 11 for Windows 10.
 
@@ -20,4 +21,3 @@ To start program, put in command line
 ```
 java AppClient.java
 ```
-
